@@ -100,3 +100,11 @@ task runJar() << {
 		"IOS7Launcher-17.apk", "IOS7Launcher-17-signed.apk" }
 	// javaexec { main="-jar"; args "signapk.jar 918.platform.x509.pem 918.platform.pk8 IOS7Launcher-17.apk IOS7Launcher-17-signed.apk".split('\\s+').toList() }
 }
+
+// sequential dependency
+def sequentialTasks = ['task0', 'task1', 'task2']
+if(sequentialTasks.size() > 1) {
+	for(i in 1 .. sequentialTasks.size()-1) {
+		tasks[sequentialTasks[i]].mustRunAfter sequentialTasks[i-1]
+	}
+}
