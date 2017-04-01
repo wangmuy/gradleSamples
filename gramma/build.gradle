@@ -1,0 +1,102 @@
+// 'gradle properties' to list properties add by a plugin
+
+task hello << { // same as doLast
+    println 'Hello world!'
+}
+// shortcut notation
+hello.doLast {
+	println 'Hello Mars'
+}
+hello.doFirst {
+	println 'Hello Venus'
+}
+hello << {
+	println 'Hello Jupiter'
+}
+
+// depends
+task intro(dependsOn: hello) << {
+	println "I'm Gradle"
+}
+
+task taskX(dependsOn: 'taskY') << {
+	print 'taskX'
+}
+
+task taskY << {
+	println 'taskY'
+}
+
+// as code
+task upper << {
+	String someString = 'mY_nAmE'
+	println "Original: " + someString
+	println "Upper case: " + someString.toUpperCase()
+}
+
+task count << {
+	4.times { print "$it " }
+}
+
+// dynamic tasks
+4.times { counter ->
+	task "task$counter" << {
+		println "I'm task number $counter"
+	}
+}
+// with some manipulation
+task0.dependsOn task2, task3
+
+// extra properties
+task myTask {
+	ext.myProperty = "myValue"
+}
+task printTaskProperties << {
+	println myTask.myProperty
+}
+
+// default tasks
+defaultTasks 'clean', 'run'
+task clean << {
+	println 'Default Cleaning!'
+}
+task run << {
+	println 'Default Running!'
+}
+task other << {
+	println "I'm not a default task!"
+}
+
+// hook before execution
+task distribution << {
+	println "We build the zip with version=$version"
+}
+task release(dependsOn: 'distribution') << {
+	println 'We release now'
+}
+gradle.taskGraph.whenReady {taskGraph ->
+	if (taskGraph.hasTask(release)) {
+		version = '1.0'
+	} else {
+		version = '1.0-SNAPSHOT'
+	}
+}
+
+// command line args
+task showArgs << {
+	// gradle showArgs -Pword1=hello --project-prop word2="world this"
+	println "$word1 $word2"
+	if (project.hasProperty("word2")) {
+		args = project.word2.split('\\s+')
+		println "I know you $word2!"
+		println args.toString()
+	}
+}
+
+// run jar file
+task runJar() << {
+	javaexec { main="-jar"; args "E:\\Android\\signapk\\signapk.jar",
+		"918.platform.x509.pem", "918.platform.pk8",
+		"IOS7Launcher-17.apk", "IOS7Launcher-17-signed.apk" }
+	// javaexec { main="-jar"; args "signapk.jar 918.platform.x509.pem 918.platform.pk8 IOS7Launcher-17.apk IOS7Launcher-17-signed.apk".split('\\s+').toList() }
+}
