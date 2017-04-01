@@ -96,9 +96,9 @@ task showArgs << {
 // run jar file
 task runJar() << {
 	javaexec { main="-jar"; args "E:\\Android\\signapk\\signapk.jar",
-		"918.platform.x509.pem", "918.platform.pk8",
-		"IOS7Launcher-17.apk", "IOS7Launcher-17-signed.apk" }
-	// javaexec { main="-jar"; args "signapk.jar 918.platform.x509.pem 918.platform.pk8 IOS7Launcher-17.apk IOS7Launcher-17-signed.apk".split('\\s+').toList() }
+		"platform.x509.pem", "platform.pk8",
+		"Launcher-17.apk", "Launcher-17-signed.apk" }
+	// javaexec { main="-jar"; args "signapk.jar platform.x509.pem platform.pk8 Launcher-17.apk Launcher-17-signed.apk".split('\\s+').toList() }
 }
 
 // sequential dependency
