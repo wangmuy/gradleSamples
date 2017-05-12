@@ -27,6 +27,14 @@ task taskY << {
 	println 'taskY'
 }
 
+// list all tasks
+// gradle -q tasks --all
+
+// list all methods of a class
+task listMethods doLast {
+    println listMethods.metaClass.methods*.name.sort().unique()
+}
+
 // as code
 task upper << {
 	String someString = 'mY_nAmE'
