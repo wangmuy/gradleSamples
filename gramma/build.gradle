@@ -90,6 +90,11 @@ gradle.taskGraph.whenReady {taskGraph ->
 	}
 }
 
+// env
+task printHomeEnv << {
+	print "$System.env.HOME"
+}
+
 // command line args
 task showArgs << {
 	// gradle showArgs -Pword1=hello --project-prop word2="world this"
